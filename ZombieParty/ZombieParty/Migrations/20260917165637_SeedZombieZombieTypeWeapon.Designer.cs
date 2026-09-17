@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZombieParty.Models.Data;
 
@@ -11,9 +12,11 @@ using ZombieParty.Models.Data;
 namespace ZombieParty.Migrations
 {
     [DbContext(typeof(ZombiePartyDbContext))]
-    partial class ZombiePartyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260917165637_SeedZombieZombieTypeWeapon")]
+    partial class SeedZombieZombieTypeWeapon
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,18 +125,6 @@ namespace ZombieParty.Migrations
                             Name = "Master Shield",
                             Price = 500m,
                             Qty = 30,
-                            QtyBought = 1
-                        },
-                        new
-                        {
-                            WeaponId = 3,
-                            CreatedDate = new DateTime(1918, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Sever away reality. Sever away the fibers of a being. Sever everything, with reckless abandon",
-                            Force = 9999m,
-                            Image = "https://limbuscompany.wiki.gg/wiki/Ry%C5%8Dsh%C5%AB#/media/File:Ryoshufull.jpg",
-                            Name = "Arayashiki",
-                            Price = 1918m,
-                            Qty = 0,
                             QtyBought = 1
                         });
                 });
