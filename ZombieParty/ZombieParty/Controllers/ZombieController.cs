@@ -100,10 +100,10 @@ namespace ZombieParty.Controllers
             return View(zombieVM);
         }
 
-        public IActionResult DeletePost()
+        public IActionResult Delete(int id)
         {
             ZombieVM zombieVM = new ZombieVM();
-            //zombieVM.Zombie = _baseDonnees.Zombies.Find(id);
+            zombieVM.Zombie = _baseDonnees.Zombies.Find(id);
             zombieVM.ZombieTypeSelectList = _baseDonnees.ZombieTypes.Select(t => new SelectListItem
             {
                 Text = t.TypeName,

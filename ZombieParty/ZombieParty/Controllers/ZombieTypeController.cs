@@ -80,39 +80,34 @@ namespace ZombieParty.Controllers
             {
                 _baseDonnees.ZombieTypes.Update(zombieType);
                 _baseDonnees.SaveChanges();
-                TempData["Success"] = $"Zombie {zombieType.TypeName} has been modified";
+                TempData["Success"] = $"{zombieType.TypeName} zombie type has been modified";
                 return this.RedirectToAction("Index");
             }
 
             return View(zombieType);
         }
 
-        public IActionResult Delete()
+        public IActionResult Delete(int id)
         {
-            ZombieVM zombieVM = new ZombieVM();
-            //zombieVM.Zombie = _baseDonnees.Zombies.Find(id);
-            zombieVM.ZombieTypeSelectList = _baseDonnees.ZombieTypes.Select(t => new SelectListItem
-            {
-                Text = t.TypeName,
-                Value = t.Id.ToString()
-            }).OrderBy(t => t.Text);
+            ZombieType zombieType = new ZombieType();
+            zombieType = _baseDonnees.ZombieTypes.Find(id);
 
-            return View(zombieVM);
+            return View(zombieType);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public IActionResult DeletePost(int id)
         {
-            Zombie? zombie = _baseDonnees.Zombies.Find(id);
-            if (zombie == null)
+            ZombieType? zombieType = _baseDonnees.ZombieTypes.Find(id);
+            if (zombieType == null)
             {
                 return NotFound();
             }
 
-            _baseDonnees.Zombies.Remove(zombie);
+            _baseDonnees.ZombieTypes.Remove(zombieType);
             _baseDonnees.SaveChanges();
-            TempData["Success"] = $"Zombie {zombie.Name} terminated";
+            TempData["Success"] = $"{zombieType.TypeName} zombie type has been terminated";
             return RedirectToAction("Index");
         }
 
