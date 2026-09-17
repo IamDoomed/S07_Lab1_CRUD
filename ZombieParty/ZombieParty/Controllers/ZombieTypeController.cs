@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ZombieParty.Models;
 using ZombieParty.Models.Data;
 using ZombieParty.ViewModels;
@@ -41,6 +42,7 @@ namespace ZombieParty.Controllers
         //GET CREATE
         public IActionResult Create()
         {
+
             return View();
         }
 
@@ -58,6 +60,60 @@ namespace ZombieParty.Controllers
             }
 
             return this.View(zombieType);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            ZombieType zombieType = new ZombieType();
+            zombieType = _baseDonnees.ZombieTypes.Find(id);
+            
+
+            return View(zombieType);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(ZombieType zombieType)
+        {
+            //Si le modèle est valide le zombie est ajouté et nous sommes redirigé vers index.
+            if (ModelState.IsValid)
+            {
+                _baseDonnees.ZombieTypes.Update(zombieType);
+                _baseDonnees.SaveChanges();
+                TempData["Success"] = $"Zombie {zombieType.TypeName} has been modified";
+                return this.RedirectToAction("Index");
+            }
+
+            return View(zombieType);
+        }
+
+        public IActionResult Delete()
+        {
+            ZombieVM zombieVM = new ZombieVM();
+            //zombieVM.Zombie = _baseDonnees.Zombies.Find(id);
+            zombieVM.ZombieTypeSelectList = _baseDonnees.ZombieTypes.Select(t => new SelectListItem
+            {
+                Text = t.TypeName,
+                Value = t.Id.ToString()
+            }).OrderBy(t => t.Text);
+
+            return View(zombieVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            Zombie? zombie = _baseDonnees.Zombies.Find(id);
+            if (zombie == null)
+            {
+                return NotFound();
+            }
+
+            _baseDonnees.Zombies.Remove(zombie);
+            _baseDonnees.SaveChanges();
+            TempData["Success"] = $"Zombie {zombie.Name} terminated";
+            return RedirectToAction("Index");
         }
 
     }
